@@ -1,7 +1,9 @@
 {
   "name": "grab-qa",
   "version": "0.1.0",
-  "description": "Visual QA annotation tool for React apps",
+  "description": "Visual QA annotation tool for React apps. Select elements, add notes, export to GitHub Issues or AI coding agents.",
+  "author": "Shean Johnson <shean@sheanstudios.com>",
+  "homepage": "https://github.com/SoftwareShean/grab-qa#readme",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -10,16 +12,19 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    },
-    "./styles.css": "./dist/styles.css"
+    }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
+  "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom",
     "dev": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -36,7 +41,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/shean-studios/grab-qa"
+    "url": "git+https://github.com/SoftwareShean/grab-qa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SoftwareShean/grab-qa/issues"
   },
   "keywords": [
     "react",
@@ -44,6 +52,13 @@
     "testing",
     "annotation",
     "bug-tracking",
-    "visual-feedback"
-  ]
+    "visual-feedback",
+    "github-issues",
+    "developer-tools",
+    "debugging",
+    "code-review"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
