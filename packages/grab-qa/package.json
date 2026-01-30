@@ -1,9 +1,9 @@
 {
-  "name": "grab-qa",
+  "name": "qaflow",
   "version": "0.1.0",
-  "description": "Visual QA annotation tool for React apps. Select elements, add notes, export to GitHub Issues or AI coding agents.",
+  "description": "Frictionless QA for React apps. Annotate elements, auto-create GitHub Issues, export to AI coding agents.",
   "author": "Shean Johnson <shean@sheanstudios.com>",
-  "homepage": "https://github.com/SoftwareShean/grab-qa#readme",
+  "homepage": "https://github.com/SoftwareShean/qaflow#readme",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -41,10 +41,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SoftwareShean/grab-qa.git"
+    "url": "git+https://github.com/SoftwareShean/qaflow.git"
   },
   "bugs": {
-    "url": "https://github.com/SoftwareShean/grab-qa/issues"
+    "url": "https://github.com/SoftwareShean/qaflow/issues"
   },
   "keywords": [
     "react",

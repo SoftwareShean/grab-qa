@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useGrabQA } from '../context';
+import { useQAFlow } from '../context';
 import { getElementContext } from '../element';
 import type { Annotation, AnnotationType, Priority } from '../types';
 import { Settings } from './Settings';
@@ -294,7 +294,7 @@ function AnnotationCard({ annotation, onDelete, onToggleResolved, linkedIssue }:
   );
 }
 
-export function GrabQAPanel() {
+export function QAFlowPanel() {
   const {
     isEnabled,
     isPanelOpen,
@@ -306,7 +306,7 @@ export function GrabQAPanel() {
     updateAnnotation,
     deleteAnnotation,
     exportToClipboard,
-  } = useGrabQA();
+  } = useQAFlow();
 
   const [showForm, setShowForm] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -382,7 +382,7 @@ export function GrabQAPanel() {
         failed: result.failed.length,
       });
     } catch (error) {
-      console.error('[GrabQA] Export failed:', error);
+      console.error('[QAFlow] Export failed:', error);
       setExportResult({ success: 0, failed: toExport.length });
     } finally {
       setIsExporting(false);
@@ -396,7 +396,7 @@ export function GrabQAPanel() {
   return (
     <>
       <div
-        data-grab-qa="panel"
+        data-qaflow="panel"
         style={{
           position: 'fixed',
           top: '20px',
@@ -424,7 +424,7 @@ export function GrabQAPanel() {
           }}
         >
           <h3 style={{ margin: 0, color: 'white', fontSize: '16px', fontWeight: 600 }}>
-            GrabQA
+            QAFlow
           </h3>
           <div style={{ display: 'flex', gap: '4px' }}>
             <button

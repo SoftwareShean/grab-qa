@@ -130,7 +130,7 @@ export function Settings({ onClose, onSave }: SettingsProps) {
 
   return (
     <div
-      data-grab-qa="settings"
+      data-qaflow="settings"
       style={{
         position: 'fixed',
         inset: 0,
@@ -225,7 +225,7 @@ export function Settings({ onClose, onSave }: SettingsProps) {
             <div style={{ marginTop: '6px', fontSize: '12px', color: '#6b7280' }}>
               Need a token?{' '}
               <a
-                href="https://github.com/settings/tokens/new?scopes=repo,project&description=GrabQA"
+                href="https://github.com/settings/tokens/new?scopes=repo,project&description=QAFlow"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#60a5fa' }}

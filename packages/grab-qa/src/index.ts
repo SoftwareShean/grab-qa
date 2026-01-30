@@ -1,15 +1,15 @@
 // Main component
-export { GrabQA, GrabQAOverlay } from './components/GrabQA';
+export { QAFlow, QAFlowOverlay } from './components/QAFlow';
 
 // Context and hooks
-export { GrabQAProvider, useGrabQA } from './context';
+export { QAFlowProvider, useQAFlow } from './context';
 
 // Individual components
-export { GrabQAToolbar } from './components/Toolbar';
-export { GrabQAPanel } from './components/Panel';
+export { QAFlowToolbar } from './components/Toolbar';
+export { QAFlowPanel } from './components/Panel';
 
 // Utilities
-export { getElementContext, getSelector, isGrabQAElement } from './element';
+export { getElementContext, getSelector, isQAFlowElement } from './element';
 export {
   annotationToMarkdown,
   exportToMarkdown,
@@ -41,8 +41,8 @@ export type {
   Priority,
   ElementContext,
   QASession,
-  GrabQAConfig,
-  GrabQAState,
-  GrabQAActions,
-  GrabQAContextValue,
+  QAFlowConfig,
+  QAFlowState,
+  QAFlowActions,
+  QAFlowContextValue,
 } from './types';

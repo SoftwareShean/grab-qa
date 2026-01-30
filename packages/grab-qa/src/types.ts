@@ -37,7 +37,7 @@ export interface QASession {
   pageUrl: string;
 }
 
-export interface GrabQAConfig {
+export interface QAFlowConfig {
   storageKey?: string;
   hotkey?: string;
   position?: 'left' | 'right';
@@ -48,7 +48,7 @@ export interface GrabQAConfig {
   onExport?: (annotations: Annotation[]) => void;
 }
 
-export interface GrabQAState {
+export interface QAFlowState {
   isEnabled: boolean;
   isGrabbing: boolean;
   isPanelOpen: boolean;
@@ -58,7 +58,7 @@ export interface GrabQAState {
   currentSession: QASession | null;
 }
 
-export interface GrabQAActions {
+export interface QAFlowActions {
   enable: () => void;
   disable: () => void;
   toggleGrabMode: () => void;
@@ -74,4 +74,4 @@ export interface GrabQAActions {
   clearAll: () => void;
 }
 
-export type GrabQAContextValue = GrabQAState & GrabQAActions;
+export type QAFlowContextValue = QAFlowState & QAFlowActions;

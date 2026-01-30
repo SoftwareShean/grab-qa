@@ -10,7 +10,7 @@ import {
 } from "react";
 
 // src/store.ts
-var DEFAULT_STORAGE_KEY = "grab-qa-annotations";
+var DEFAULT_STORAGE_KEY = "qaflow-annotations";
 function getStorageKey(customKey) {
   return customKey || DEFAULT_STORAGE_KEY;
 }
@@ -22,7 +22,7 @@ function loadAnnotations(storageKey) {
     const data = JSON.parse(stored);
     return Array.isArray(data) ? data : [];
   } catch {
-    console.warn("[GrabQA] Failed to load annotations from storage");
+    console.warn("[QAFlow] Failed to load annotations from storage");
     return [];
   }
 }
@@ -31,7 +31,7 @@ function saveAnnotations(storageKey, annotations) {
   try {
     localStorage.setItem(storageKey, JSON.stringify(annotations));
   } catch (error) {
-    console.error("[GrabQA] Failed to save annotations:", error);
+    console.error("[QAFlow] Failed to save annotations:", error);
   }
 }
 function generateId() {
@@ -122,8 +122,8 @@ function getElementContext(element) {
     filePath: reactInfo.filePath
   };
 }
-function isGrabQAElement(element) {
-  return element.closest("[data-grab-qa]") !== null;
+function isQAFlowElement(element) {
+  return element.closest("[data-qaflow]") !== null;
 }
 
 // src/export.ts
@@ -256,7 +256,7 @@ function formatGitHubIssueBody(annotation) {
   lines.push(`- **Created:** ${new Date(annotation.createdAt).toISOString()}`);
   lines.push("");
   lines.push("---");
-  lines.push("*Captured with [GrabQA](https://github.com/shean-studios/grab-qa)*");
+  lines.push("*Captured with [QAFlow](https://github.com/shean-studios/qaflow)*");
   return lines.join("\n");
 }
 function getGitHubLabels(annotation) {
@@ -351,8 +351,8 @@ function reducer(state, action) {
       return state;
   }
 }
-var GrabQAContext = createContext(null);
-function GrabQAProvider({ children, config = {} }) {
+var QAFlowContext = createContext(null);
+function QAFlowProvider({ children, config = {} }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const storageKey = getStorageKey(config.storageKey);
   const highlightRef = useRef(null);
@@ -389,7 +389,7 @@ function GrabQAProvider({ children, config = {} }) {
     }
     const handleMouseMove = (e) => {
       const target = e.target;
-      if (isGrabQAElement(target)) {
+      if (isQAFlowElement(target)) {
         dispatch({ type: "SET_HOVERED", element: null });
         return;
       }
@@ -397,7 +397,7 @@ function GrabQAProvider({ children, config = {} }) {
       const rect = target.getBoundingClientRect();
       if (!highlightRef.current) {
         highlightRef.current = document.createElement("div");
-        highlightRef.current.setAttribute("data-grab-qa", "highlight");
+        highlightRef.current.setAttribute("data-qaflow", "highlight");
         document.body.appendChild(highlightRef.current);
       }
       highlightRef.current.style.cssText = `
@@ -416,7 +416,7 @@ function GrabQAProvider({ children, config = {} }) {
     };
     const handleClick = (e) => {
       const target = e.target;
-      if (isGrabQAElement(target)) return;
+      if (isQAFlowElement(target)) return;
       e.preventDefault();
       e.stopPropagation();
       dispatch({ type: "SET_SELECTED", element: target });
@@ -475,7 +475,7 @@ function GrabQAProvider({ children, config = {} }) {
   );
   const exportToGitHubFn = useCallback(async () => {
     if (!config.githubRepo) {
-      console.error("[GrabQA] No GitHub repo configured");
+      console.error("[QAFlow] No GitHub repo configured");
       return;
     }
     for (const annotation of state.annotations.filter((a) => !a.resolved)) {
@@ -533,19 +533,19 @@ function GrabQAProvider({ children, config = {} }) {
       clearAll
     ]
   );
-  return /* @__PURE__ */ jsx(GrabQAContext.Provider, { value, children });
+  return /* @__PURE__ */ jsx(QAFlowContext.Provider, { value, children });
 }
-function useGrabQA() {
-  const context = useContext(GrabQAContext);
+function useQAFlow() {
+  const context = useContext(QAFlowContext);
   if (!context) {
-    throw new Error("useGrabQA must be used within a GrabQAProvider");
+    throw new Error("useQAFlow must be used within a QAFlowProvider");
   }
   return context;
 }
 
 // src/components/Toolbar.tsx
 import { jsx as jsx2, jsxs } from "react/jsx-runtime";
-function GrabQAToolbar() {
+function QAFlowToolbar() {
   const {
     isEnabled,
     isGrabbing,
@@ -554,13 +554,13 @@ function GrabQAToolbar() {
     toggleGrabMode,
     togglePanel,
     disable
-  } = useGrabQA();
+  } = useQAFlow();
   if (!isEnabled) return null;
   const unresolvedCount = annotations.filter((a) => !a.resolved).length;
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      "data-grab-qa": "toolbar",
+      "data-qaflow": "toolbar",
       style: {
         position: "fixed",
         bottom: "20px",
@@ -658,7 +658,7 @@ function GrabQAToolbar() {
               borderRadius: "6px",
               cursor: "pointer"
             },
-            title: "Close GrabQA (Alt+Q)",
+            title: "Close QAFlow (Alt+Q)",
             children: /* @__PURE__ */ jsx2("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsx2("path", { d: "M18 6L6 18M6 6l12 12" }) })
           }
         )
@@ -674,7 +674,7 @@ import { useState as useState2, useEffect as useEffect3 } from "react";
 import { useEffect as useEffect2, useState, useMemo as useMemo2 } from "react";
 
 // src/github.ts
-var STORAGE_KEY = "grab-qa-github-config";
+var STORAGE_KEY = "qaflow-github-config";
 function loadGitHubConfig() {
   if (typeof window === "undefined") return null;
   try {
@@ -927,7 +927,7 @@ function Settings({ onClose, onSave }) {
   return /* @__PURE__ */ jsx3(
     "div",
     {
-      "data-grab-qa": "settings",
+      "data-qaflow": "settings",
       style: {
         position: "fixed",
         inset: 0,
@@ -1027,7 +1027,7 @@ function Settings({ onClose, onSave }) {
                   /* @__PURE__ */ jsx3(
                     "a",
                     {
-                      href: "https://github.com/settings/tokens/new?scopes=repo,project&description=GrabQA",
+                      href: "https://github.com/settings/tokens/new?scopes=repo,project&description=QAFlow",
                       target: "_blank",
                       rel: "noopener noreferrer",
                       style: { color: "#60a5fa" },
@@ -1540,7 +1540,7 @@ function AnnotationCard({ annotation, onDelete, onToggleResolved, linkedIssue })
     }
   );
 }
-function GrabQAPanel() {
+function QAFlowPanel() {
   const {
     isEnabled,
     isPanelOpen,
@@ -1552,7 +1552,7 @@ function GrabQAPanel() {
     updateAnnotation,
     deleteAnnotation,
     exportToClipboard
-  } = useGrabQA();
+  } = useQAFlow();
   const [showForm, setShowForm] = useState2(false);
   const [showSettings, setShowSettings] = useState2(false);
   const [githubConfig, setGithubConfig] = useState2(null);
@@ -1607,7 +1607,7 @@ function GrabQAPanel() {
         failed: result.failed.length
       });
     } catch (error) {
-      console.error("[GrabQA] Export failed:", error);
+      console.error("[QAFlow] Export failed:", error);
       setExportResult({ success: 0, failed: toExport.length });
     } finally {
       setIsExporting(false);
@@ -1620,7 +1620,7 @@ function GrabQAPanel() {
     /* @__PURE__ */ jsxs3(
       "div",
       {
-        "data-grab-qa": "panel",
+        "data-qaflow": "panel",
         style: {
           position: "fixed",
           top: "20px",
@@ -1648,7 +1648,7 @@ function GrabQAPanel() {
                 alignItems: "center"
               },
               children: [
-                /* @__PURE__ */ jsx4("h3", { style: { margin: 0, color: "white", fontSize: "16px", fontWeight: 600 }, children: "GrabQA" }),
+                /* @__PURE__ */ jsx4("h3", { style: { margin: 0, color: "white", fontSize: "16px", fontWeight: 600 }, children: "QAFlow" }),
                 /* @__PURE__ */ jsxs3("div", { style: { display: "flex", gap: "4px" }, children: [
                   /* @__PURE__ */ jsx4(
                     "button",
@@ -1876,30 +1876,30 @@ function GrabQAPanel() {
   ] });
 }
 
-// src/components/GrabQA.tsx
+// src/components/QAFlow.tsx
 import { Fragment as Fragment2, jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
-function GrabQA({ children, config }) {
+function QAFlow({ children, config }) {
   if (typeof window === "undefined") {
     return /* @__PURE__ */ jsx5(Fragment2, { children });
   }
-  return /* @__PURE__ */ jsxs4(GrabQAProvider, { config, children: [
+  return /* @__PURE__ */ jsxs4(QAFlowProvider, { config, children: [
     children,
-    /* @__PURE__ */ jsx5(GrabQAToolbar, {}),
-    /* @__PURE__ */ jsx5(GrabQAPanel, {})
+    /* @__PURE__ */ jsx5(QAFlowToolbar, {}),
+    /* @__PURE__ */ jsx5(QAFlowPanel, {})
   ] });
 }
-function GrabQAOverlay() {
+function QAFlowOverlay() {
   return /* @__PURE__ */ jsxs4(Fragment2, { children: [
-    /* @__PURE__ */ jsx5(GrabQAToolbar, {}),
-    /* @__PURE__ */ jsx5(GrabQAPanel, {})
+    /* @__PURE__ */ jsx5(QAFlowToolbar, {}),
+    /* @__PURE__ */ jsx5(QAFlowPanel, {})
   ] });
 }
 export {
-  GrabQA,
-  GrabQAOverlay,
-  GrabQAPanel,
-  GrabQAProvider,
-  GrabQAToolbar,
+  QAFlow,
+  QAFlowOverlay,
+  QAFlowPanel,
+  QAFlowProvider,
+  QAFlowToolbar,
   annotationToMarkdown,
   clearGitHubConfig,
   copyForAI,
@@ -1914,12 +1914,12 @@ export {
   getElementContext,
   getGitHubLabels,
   getSelector,
-  isGrabQAElement,
+  isQAFlowElement,
   loadAnnotations,
   loadGitHubConfig,
   parseGitHubUrl,
   saveAnnotations,
   saveGitHubConfig,
-  useGrabQA,
+  useQAFlow,
   verifyGitHubToken
 };

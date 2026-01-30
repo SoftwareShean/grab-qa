@@ -36,7 +36,7 @@ interface QASession {
     updatedAt: number;
     pageUrl: string;
 }
-interface GrabQAConfig {
+interface QAFlowConfig {
     storageKey?: string;
     hotkey?: string;
     position?: 'left' | 'right';
@@ -46,7 +46,7 @@ interface GrabQAConfig {
     onAnnotationUpdate?: (annotation: Annotation) => void;
     onExport?: (annotations: Annotation[]) => void;
 }
-interface GrabQAState {
+interface QAFlowState {
     isEnabled: boolean;
     isGrabbing: boolean;
     isPanelOpen: boolean;
@@ -55,7 +55,7 @@ interface GrabQAState {
     annotations: Annotation[];
     currentSession: QASession | null;
 }
-interface GrabQAActions {
+interface QAFlowActions {
     enable: () => void;
     disable: () => void;
     toggleGrabMode: () => void;
@@ -70,47 +70,47 @@ interface GrabQAActions {
     exportToClipboard: () => Promise<void>;
     clearAll: () => void;
 }
-type GrabQAContextValue = GrabQAState & GrabQAActions;
+type QAFlowContextValue = QAFlowState & QAFlowActions;
 
-interface GrabQAProviderProps {
+interface QAFlowProviderProps {
     children: React.ReactNode;
-    config?: GrabQAConfig;
+    config?: QAFlowConfig;
 }
-declare function GrabQAProvider({ children, config }: GrabQAProviderProps): react_jsx_runtime.JSX.Element;
-declare function useGrabQA(): GrabQAContextValue;
+declare function QAFlowProvider({ children, config }: QAFlowProviderProps): react_jsx_runtime.JSX.Element;
+declare function useQAFlow(): QAFlowContextValue;
 
-interface GrabQAProps extends Omit<GrabQAProviderProps, 'children'> {
+interface QAFlowProps extends Omit<QAFlowProviderProps, 'children'> {
     children?: React.ReactNode;
 }
 /**
- * Main GrabQA component - wrap your app or specific pages with this
+ * Main QAFlow component - wrap your app or specific pages with this
  *
  * @example
  * ```tsx
  * // In your layout or app
- * import { GrabQA } from 'grab-qa';
+ * import { QAFlow } from 'qaflow';
  *
  * export default function Layout({ children }) {
  *   return (
  *     <>
  *       {children}
  *       {process.env.NODE_ENV === 'development' && (
- *         <GrabQA config={{ githubRepo: 'user/repo' }} />
+ *         <QAFlow config={{ githubRepo: 'user/repo' }} />
  *       )}
  *     </>
  *   );
  * }
  * ```
  */
-declare function GrabQA({ children, config }: GrabQAProps): react_jsx_runtime.JSX.Element;
+declare function QAFlow({ children, config }: QAFlowProps): react_jsx_runtime.JSX.Element;
 /**
- * Standalone overlay - use if you want manual control via useGrabQA hook
+ * Standalone overlay - use if you want manual control via useQAFlow hook
  */
-declare function GrabQAOverlay(): react_jsx_runtime.JSX.Element;
+declare function QAFlowOverlay(): react_jsx_runtime.JSX.Element;
 
-declare function GrabQAToolbar(): react_jsx_runtime.JSX.Element | null;
+declare function QAFlowToolbar(): react_jsx_runtime.JSX.Element | null;
 
-declare function GrabQAPanel(): react_jsx_runtime.JSX.Element | null;
+declare function QAFlowPanel(): react_jsx_runtime.JSX.Element | null;
 
 /**
  * Get a unique CSS selector for an element
@@ -121,9 +121,9 @@ declare function getSelector(element: HTMLElement): string;
  */
 declare function getElementContext(element: HTMLElement): ElementContext;
 /**
- * Check if element is part of GrabQA UI
+ * Check if element is part of QAFlow UI
  */
-declare function isGrabQAElement(element: HTMLElement): boolean;
+declare function isQAFlowElement(element: HTMLElement): boolean;
 
 /**
  * Format a single annotation as markdown
@@ -227,4 +227,4 @@ declare function fetchUserRepos(token: string): Promise<{
     full_name: string;
 }[]>;
 
-export { type Annotation, type AnnotationType, type ElementContext, type GitHubConfig, type GitHubIssue, GrabQA, type GrabQAActions, type GrabQAConfig, type GrabQAContextValue, GrabQAOverlay, GrabQAPanel, GrabQAProvider, type GrabQAState, GrabQAToolbar, type Priority, type QASession, annotationToMarkdown, clearGitHubConfig, copyForAI, createGitHubIssue, createGitHubIssues, exportToMarkdown, fetchGitHubProjects, fetchUserRepos, formatForAI, formatGitHubIssueBody, generateId, getElementContext, getGitHubLabels, getSelector, isGrabQAElement, loadAnnotations, loadGitHubConfig, parseGitHubUrl, saveAnnotations, saveGitHubConfig, useGrabQA, verifyGitHubToken };
+export { type Annotation, type AnnotationType, type ElementContext, type GitHubConfig, type GitHubIssue, type Priority, QAFlow, type QAFlowActions, type QAFlowConfig, type QAFlowContextValue, QAFlowOverlay, QAFlowPanel, QAFlowProvider, type QAFlowState, QAFlowToolbar, type QASession, annotationToMarkdown, clearGitHubConfig, copyForAI, createGitHubIssue, createGitHubIssues, exportToMarkdown, fetchGitHubProjects, fetchUserRepos, formatForAI, formatGitHubIssueBody, generateId, getElementContext, getGitHubLabels, getSelector, isQAFlowElement, loadAnnotations, loadGitHubConfig, parseGitHubUrl, saveAnnotations, saveGitHubConfig, useQAFlow, verifyGitHubToken };

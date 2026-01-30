@@ -16,7 +16,7 @@ export interface GitHubIssue {
   state: 'open' | 'closed';
 }
 
-const STORAGE_KEY = 'grab-qa-github-config';
+const STORAGE_KEY = 'qaflow-github-config';
 
 /**
  * Load GitHub config from localStorage
@@ -165,7 +165,7 @@ export async function addIssueToProject(
   });
 
   if (!response.ok) {
-    console.warn('[GrabQA] Failed to add issue to project');
+    console.warn('[QAFlow] Failed to add issue to project');
   }
 }
 

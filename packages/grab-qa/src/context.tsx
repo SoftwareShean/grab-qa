@@ -11,12 +11,12 @@ import React, {
 } from 'react';
 import type {
   Annotation,
-  GrabQAConfig,
-  GrabQAContextValue,
-  GrabQAState,
+  QAFlowConfig,
+  QAFlowContextValue,
+  QAFlowState,
 } from './types';
 import { generateId, getStorageKey, loadAnnotations, saveAnnotations } from './store';
-import { getElementContext, isGrabQAElement } from './element';
+import { getElementContext, isQAFlowElement } from './element';
 import { copyForAI, exportToMarkdown, formatGitHubIssueBody, getGitHubLabels } from './export';
 
 type Action =
@@ -32,7 +32,7 @@ type Action =
   | { type: 'DELETE_ANNOTATION'; id: string }
   | { type: 'CLEAR_ALL' };
 
-const initialState: GrabQAState = {
+const initialState: QAFlowState = {
   isEnabled: false,
   isGrabbing: false,
   isPanelOpen: false,
@@ -42,7 +42,7 @@ const initialState: GrabQAState = {
   currentSession: null,
 };
 
-function reducer(state: GrabQAState, action: Action): GrabQAState {
+function reducer(state: QAFlowState, action: Action): QAFlowState {
   switch (action.type) {
     case 'ENABLE':
       return { ...state, isEnabled: true };
@@ -84,14 +84,14 @@ function reducer(state: GrabQAState, action: Action): GrabQAState {
   }
 }
 
-const GrabQAContext = createContext<GrabQAContextValue | null>(null);
+const QAFlowContext = createContext<QAFlowContextValue | null>(null);
 
-export interface GrabQAProviderProps {
+export interface QAFlowProviderProps {
   children: React.ReactNode;
-  config?: GrabQAConfig;
+  config?: QAFlowConfig;
 }
 
-export function GrabQAProvider({ children, config = {} }: GrabQAProviderProps) {
+export function QAFlowProvider({ children, config = {} }: QAFlowProviderProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const storageKey = getStorageKey(config.storageKey);
   const highlightRef = useRef<HTMLDivElement | null>(null);
@@ -140,7 +140,7 @@ export function GrabQAProvider({ children, config = {} }: GrabQAProviderProps) {
     const handleMouseMove = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
-      if (isGrabQAElement(target)) {
+      if (isQAFlowElement(target)) {
         dispatch({ type: 'SET_HOVERED', element: null });
         return;
       }
@@ -151,7 +151,7 @@ export function GrabQAProvider({ children, config = {} }: GrabQAProviderProps) {
       const rect = target.getBoundingClientRect();
       if (!highlightRef.current) {
         highlightRef.current = document.createElement('div');
-        highlightRef.current.setAttribute('data-grab-qa', 'highlight');
+        highlightRef.current.setAttribute('data-qaflow', 'highlight');
         document.body.appendChild(highlightRef.current);
       }
 
@@ -173,7 +173,7 @@ export function GrabQAProvider({ children, config = {} }: GrabQAProviderProps) {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
-      if (isGrabQAElement(target)) return;
+      if (isQAFlowElement(target)) return;
 
       e.preventDefault();
       e.stopPropagation();
@@ -243,7 +243,7 @@ export function GrabQAProvider({ children, config = {} }: GrabQAProviderProps) {
 
   const exportToGitHubFn = useCallback(async () => {
     if (!config.githubRepo) {
-      console.error('[GrabQA] No GitHub repo configured');
+      console.error('[QAFlow] No GitHub repo configured');
       return;
     }
 
@@ -275,7 +275,7 @@ export function GrabQAProvider({ children, config = {} }: GrabQAProviderProps) {
 
   const clearAll = useCallback(() => dispatch({ type: 'CLEAR_ALL' }), []);
 
-  const value = useMemo<GrabQAContextValue>(
+  const value = useMemo<QAFlowContextValue>(
     () => ({
       ...state,
       enable,
@@ -310,13 +310,13 @@ export function GrabQAProvider({ children, config = {} }: GrabQAProviderProps) {
     ]
   );
 
-  return <GrabQAContext.Provider value={value}>{children}</GrabQAContext.Provider>;
+  return <QAFlowContext.Provider value={value}>{children}</QAFlowContext.Provider>;
 }
 
-export function useGrabQA(): GrabQAContextValue {
-  const context = useContext(GrabQAContext);
+export function useQAFlow(): QAFlowContextValue {
+  const context = useContext(QAFlowContext);
   if (!context) {
-    throw new Error('useGrabQA must be used within a GrabQAProvider');
+    throw new Error('useQAFlow must be used within a QAFlowProvider');
   }
   return context;
 }

@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useGrabQA } from '../context';
+import { useQAFlow } from '../context';
 
-export function GrabQAToolbar() {
+export function QAFlowToolbar() {
   const {
     isEnabled,
     isGrabbing,
@@ -12,7 +12,7 @@ export function GrabQAToolbar() {
     toggleGrabMode,
     togglePanel,
     disable,
-  } = useGrabQA();
+  } = useQAFlow();
 
   if (!isEnabled) return null;
 
@@ -20,7 +20,7 @@ export function GrabQAToolbar() {
 
   return (
     <div
-      data-grab-qa="toolbar"
+      data-qaflow="toolbar"
       style={{
         position: 'fixed',
         bottom: '20px',
@@ -115,7 +115,7 @@ export function GrabQAToolbar() {
           borderRadius: '6px',
           cursor: 'pointer',
         }}
-        title="Close GrabQA (Alt+Q)"
+        title="Close QAFlow (Alt+Q)"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M18 6L6 18M6 6l12 12" />

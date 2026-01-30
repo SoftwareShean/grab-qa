@@ -136,8 +136,8 @@ export function createHighlight(element: HTMLElement): HTMLDivElement {
 }
 
 /**
- * Check if element is part of GrabQA UI
+ * Check if element is part of QAFlow UI
  */
-export function isGrabQAElement(element: HTMLElement): boolean {
-  return element.closest('[data-grab-qa]') !== null;
+export function isQAFlowElement(element: HTMLElement): boolean {
+  return element.closest('[data-qaflow]') !== null;
 }

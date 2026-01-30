@@ -159,7 +159,7 @@ export function formatGitHubIssueBody(annotation: Annotation): string {
   lines.push(`- **Created:** ${new Date(annotation.createdAt).toISOString()}`);
   lines.push('');
   lines.push('---');
-  lines.push('*Captured with [GrabQA](https://github.com/shean-studios/grab-qa)*');
+  lines.push('*Captured with [QAFlow](https://github.com/shean-studios/qaflow)*');
 
   return lines.join('\n');
 }
